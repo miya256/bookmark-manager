@@ -43,6 +43,7 @@ export class Group extends Entry {
 
     add(entry) {
         this.entries.push(entry);
+        this.render();
     }
 
     render(list) {
