@@ -15,17 +15,21 @@ root.add(b);
 
 enterGroup(root)
 
-document.getElementById("saveButton").addEventListener("click", () => {
+document.getElementById("addButton").addEventListener("click", () => {
     const titleInput = document.getElementById("titleInput");
     const urlInput = document.getElementById("urlInput");
     const title = titleInput.value;
     const url = urlInput.value;
 
     if (title.trim() === "" || url.trim() === "") {
+        titleInput.classList.add("error")
+        urlInput.classList.add("error")
         const error = document.getElementById("error");
         error.textContent = "タイトルとURLを入力してください";
         return;
     } else {
+        titleInput.classList.remove("error")
+        urlInput.classList.remove("error")
         error.textContent = "";
     }
 
