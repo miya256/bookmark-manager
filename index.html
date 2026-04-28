@@ -5,12 +5,20 @@
 </head>
 
 <body>
+    <div id="menu" class="menu">
+        <div class="item" data-action="edit">編集</div>
+        <div class="item" data-action="delete">削除</div>
+    </div>
+
+    <!-- この上の要素はjsで操作する-->
+    <!-- この下から表示 -->
+
     <h1>Bookmark Manager</h1>
 
     <input id="titleInput" placeholder="title">
     <input id="urlInput" placeholder="url">
     <button id="addButton">追加</button>
-    <div id="error"></div>
+    <div id="inputError", class="errorMessage"></div>
 
     <hr>
 

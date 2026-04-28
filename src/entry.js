@@ -1,9 +1,28 @@
 import { enterGroup } from "./state.js";
+import { showMenu, menu } from "./menu.js";
 
 class Entry {
     constructor(name) {
         this.name = name
+        this.timer;
     }
+
+    addContextmenuEventListener(div) {
+        div.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            showMenu(e.pageX, e.pageY, this);
+        });
+        div.addEventListener("touchstart", (e) => {
+            this.timer = setTimeout(() => {
+                const touch = e.touches[0];
+                showMenu(touch.pageX, touch.pageY, this);
+            }, 500);
+        });
+        div.addEventListener("touchend", () => {
+            clearTimeout(this.timer);
+        });
+    }
+
     render(list) {}
 }
 
@@ -20,7 +39,7 @@ export class Bookmark extends Entry {
 
     render(list) {
         const div = document.createElement("div");
-        div.className = "item";
+        div.className = "bookmarkEntry";
 
         div.innerHTML = `
             <img src="${this.getFavicon()}" />
@@ -30,6 +49,8 @@ export class Bookmark extends Entry {
         div.addEventListener("click", () => {
             window.open(this.url, "_blank");
         });
+
+        this.addContextmenuEventListener(div);
 
         list.appendChild(div);
     }
@@ -45,6 +66,10 @@ export class Group extends Entry {
         this.entries.push(entry);
         this.render();
     }
+    remove(entry) {
+        this.entries = this.entries.filter(e => e !== entry);
+        this.render();
+    }
 
     render(list) {
         if (list === undefined) {
@@ -55,11 +80,13 @@ export class Group extends Entry {
         }
 
         const div = document.createElement("div");
-        div.className = "item";
+        div.className = "bookmarkEntry";
 
         div.addEventListener("click", () => {
             enterGroup(this);
         });
+
+        this.addContextmenuEventListener(div);
 
         list.appendChild(div);
     }

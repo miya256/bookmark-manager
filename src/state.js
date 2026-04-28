@@ -1,15 +1,19 @@
 let history = [];
-export let now;
+
+export const state = {
+    displayGroup: null,
+    selected: null
+}
 
 export function enterGroup(g) {
-    if (now != undefined) history.push(now);
-    now = g;
-    now.render();
+    if (state.displayGroup != null) history.push(state.displayGroup);
+    state.displayGroup = g;
+    state.displayGroup.render();
 }
 
 export function goBack() {
     if (history.length > 0) {
-        now = history.pop();
-        now.render();
+        state.displayGroup = history.pop();
+        state.displayGroup.render();
     }
 }

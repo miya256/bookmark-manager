@@ -1,5 +1,5 @@
 import { Bookmark, Group } from "./entry.js";
-import { now, enterGroup, goBack } from "./state.js";
+import { state, enterGroup, goBack } from "./state.js";
 
 
 const a = new Bookmark("AtCoder", "https://atcoder.jp");
@@ -15,28 +15,28 @@ root.add(b);
 
 enterGroup(root)
 
+// bookmark追加
 document.getElementById("addButton").addEventListener("click", () => {
     const titleInput = document.getElementById("titleInput");
     const urlInput = document.getElementById("urlInput");
-    const title = titleInput.value;
-    const url = urlInput.value;
+    const inputError = document.getElementById("inputError");
 
-    if (title.trim() === "" || url.trim() === "") {
-        titleInput.classList.add("error")
-        urlInput.classList.add("error")
-        const error = document.getElementById("error");
-        error.textContent = "タイトルとURLを入力してください";
+    if (titleInput.value.trim() === "" || urlInput.value.trim() === "") {
+        titleInput.classList.add("inputError")
+        urlInput.classList.add("inputError")
+        inputError.textContent = "タイトルとURLを入力してください";
         return;
     } else {
-        titleInput.classList.remove("error")
-        urlInput.classList.remove("error")
-        error.textContent = "";
+        titleInput.classList.remove("inputError")
+        urlInput.classList.remove("inputError")
+        inputError.textContent = "";
     }
 
-    const bookmark = new Bookmark(title, url);
-    now.add(bookmark);
+    const bookmark = new Bookmark(titleInput.value, urlInput.value);
+    state.displayGroup.add(bookmark);
 
     titleInput.value = "";
     urlInput.value = "";
 })
+
 document.getElementById("backButton").addEventListener("click", goBack);

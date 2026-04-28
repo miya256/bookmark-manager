@@ -4,7 +4,7 @@
     gap: 12px;
 }
 
-.item {
+.bookmarkEntry {
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -13,24 +13,40 @@
     transition: 0.2s;
 }
 
-.item:hover {
+.bookmarkEntry:hover {
     background: #f5f5f5;
     transform: scale(1.03);
 }
 
-.item img {
+.bookmarkEntry img {
     width: 24px;
     height: 24px;
     margin-bottom: 6px;
 }
 
-/* class=error で反映*/
-.error {
+.inputError {
   border: 1px solid red;
   background-color: #ffecec;
 }
 
-/* id=errorで反映 */
-#error {
+.errorMessage {
     color: red;
+}
+
+.menu {
+  position: absolute;
+  display: none;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.menu .item {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.menu .item:hover {
+  background: #f0f0f0;
 }
