@@ -1,5 +1,4 @@
-import { enterGroup } from "./state.js";
-import { showMenu, menu } from "./menu.js";
+import { setCurrentGroup, showMenu } from "./controller.js";
 
 class Entry {
     constructor(name) {
@@ -7,7 +6,7 @@ class Entry {
         this.timer;
     }
 
-    addContextmenuEventListener(div) {
+    setupContextMenu(div) {
         div.addEventListener("contextmenu", (e) => {
             e.preventDefault();
             showMenu(e.pageX, e.pageY, this);
@@ -23,7 +22,7 @@ class Entry {
         });
     }
 
-    render(list) {}
+    toElement() {}
 }
 
 export class Bookmark extends Entry {
@@ -37,7 +36,7 @@ export class Bookmark extends Entry {
         return `https://www.google.com/s2/favicons?domain=${domain}`;
     }
 
-    render(list) {
+    toElement() {
         const div = document.createElement("div");
         div.className = "bookmarkEntry";
 
@@ -50,9 +49,9 @@ export class Bookmark extends Entry {
             window.open(this.url, "_blank");
         });
 
-        this.addContextmenuEventListener(div);
+        this.setupContextMenu(div);
 
-        list.appendChild(div);
+        return div;
     }
 }
 
@@ -64,30 +63,21 @@ export class Group extends Entry {
 
     add(entry) {
         this.entries.push(entry);
-        this.render();
     }
     remove(entry) {
         this.entries = this.entries.filter(e => e !== entry);
-        this.render();
     }
 
-    render(list) {
-        if (list === undefined) {
-            list = document.getElementById("list");
-            list.innerHTML = "";
-            this.entries.forEach(e => e.render(list));
-            return;
-        }
-
+    toElement() {
         const div = document.createElement("div");
         div.className = "bookmarkEntry";
 
         div.addEventListener("click", () => {
-            enterGroup(this);
+            setCurrentGroup(this);
         });
 
-        this.addContextmenuEventListener(div);
+        this.setupContextMenu(div);
 
-        list.appendChild(div);
+        return div;
     }
 }

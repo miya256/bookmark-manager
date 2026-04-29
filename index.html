@@ -15,14 +15,24 @@
 
     <h1>Bookmark Manager</h1>
 
-    <input id="titleInput" placeholder="title">
-    <input id="urlInput" placeholder="url">
-    <button id="addButton">追加</button>
-    <div id="inputError", class="errorMessage"></div>
+    <div>
+        ブックマーク追加：
+        <input id="bookmark-title-input" placeholder="title">
+        <input id="bookmark-url-input" placeholder="url">
+        <button id="bookmark-add-button">追加</button>
+        <div id="bookmark-input-error", class="error-message"></div>
+    </div>
+
+    <div>
+        グループを追加：
+        <input id="group-title-input" placeholder="title">
+        <button id="group-add-button">追加</button>
+        <div id="group-input-error", class="error-message"></div>
+    </div>
 
     <hr>
 
-    <button id="backButton">戻る</button>
+    <button id="back-button">戻る</button>
 
 
     <ul id="list", class="grid"></ul>
