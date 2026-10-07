@@ -1,0 +1,8 @@
+main {
+  flex: 1;
+  padding: 16px;
+}
+
+.gallery {
+  display: grid;
+}
