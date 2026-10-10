@@ -14,10 +14,12 @@ import "./App.css";
 
 
 function App() {
+  // 状態
   const { history: treeHistory, dispatch: treeDispatch, find: find} = useTree();
   const { history: naviHistory, dispatch: naviDispatch} = useNavi();
   const { contextMenu, setContextMenu, openContextMenu } = useContextMenu();
 
+  // イベント
   useEffect(() => {
     const handleClick = () => setContextMenu(null);
     window.addEventListener("click", handleClick);
@@ -38,6 +40,7 @@ function App() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
 
   return (
     <ContextMenuContext.Provider value={{ openContextMenu }}>

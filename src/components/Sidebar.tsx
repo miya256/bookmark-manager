@@ -1,24 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 
-import { TreeContext } from "../contexts/TreeContext";
-import { NaviContext } from "../contexts/NaviContext";
+import { useTree } from "../contexts/TreeContext";
+import { useNavi } from "../contexts/NaviContext";
 
 import "./Sidebar.css";
 
 
 function Sidebar() {
-  const treeContext = useContext(TreeContext);
-  const naviContext = useContext(NaviContext)
-
-  if (!treeContext) {
-    throw new Error("useTreeContext must be used inside TreeProvider");
-  }
-  if (!naviContext) {
-    throw new Error("useNaviContext must be used inside NaviProvider");
-  }
-
-  const { treeHistory, treeDispatch } = treeContext;
-  const { naviHistory, naviDispatch } = naviContext;
+  const { treeHistory, treeDispatch } = useTree();
+  const { naviHistory, naviDispatch } = useNavi();
   const [url, setUrl] = useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

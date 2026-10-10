@@ -1,7 +1,5 @@
-import { useContext } from "react";
-
-import { TreeContext } from "../contexts/TreeContext";
-import { NaviContext } from "../contexts/NaviContext";
+import { useTree } from "../contexts/TreeContext";
+import { useNavi } from "../contexts/NaviContext";
 
 import type { ItemData } from "../types/Item";
 
@@ -14,18 +12,8 @@ type Props = {
 };
 
 function Content({find}: Props) {
-  const treeContext = useContext(TreeContext);
-  const naviContext = useContext(NaviContext)
-
-  if (!treeContext) {
-    throw new Error("useTreeContext must be used inside TreeProvider");
-  }
-  if (!naviContext) {
-    throw new Error("useNaviContext must be used inside NaviProvider");
-  }
-
-  const { treeHistory, treeDispatch } = treeContext;
-  const { naviHistory, naviDispatch } = naviContext;
+  const { treeHistory, treeDispatch } = useTree();
+  const { naviHistory, naviDispatch } = useNavi();
 
   const currentFolder = find(treeHistory.present, naviHistory.present);
   if (currentFolder === null || currentFolder.type == "link") {

@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 import type { History } from "../types/History";
 import type { TreeAction } from "../types/TreeAction";
@@ -10,3 +10,13 @@ type TreeContextType = {
 };
 
 export const TreeContext = createContext<TreeContextType | null>(null);
+
+export const useTree = () => {
+  const context = useContext(TreeContext);
+
+  if (!context) {
+    throw new Error("useTreeContext must be used inside TreeProvider");
+  }
+
+  return context;
+};

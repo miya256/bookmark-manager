@@ -1,19 +1,15 @@
-import { useContext } from "react";
 
-import { NaviContext } from "../contexts/NaviContext";
+import { useNavi } from "../contexts/NaviContext";
 import { useContextMenu } from "../contexts/ContextMenuContext";
 
 import type { FolderData } from "../types/Item";
 
 import "./Folder.css";
 
+
 function Folder({ data }: { data: FolderData }) {
   const { openContextMenu } = useContextMenu();
-  const naviContext = useContext(NaviContext)
-  if (!naviContext) {
-    throw new Error("useNaviContext must be used inside NaviProvider");
-  }
-  const { naviHistory, naviDispatch } = naviContext;
+  const { naviHistory, naviDispatch } = useNavi();
 
   return (
     <div
