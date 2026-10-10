@@ -1,20 +1,29 @@
 import { useContext } from "react";
-import type { FolderData } from "../types/Item";;
+
 import { NaviContext } from "../contexts/NaviContext";
-import "./Folder.css"
+import { useContextMenu } from "../contexts/ContextMenuContext";
+
+import type { FolderData } from "../types/Item";
+
+import "./Folder.css";
 
 function Folder({ data }: { data: FolderData }) {
+  const { openContextMenu } = useContextMenu();
   const naviContext = useContext(NaviContext)
   if (!naviContext) {
     throw new Error("useNaviContext must be used inside NaviProvider");
   }
-
   const { naviHistory, naviDispatch } = naviContext;
 
   return (
     <div
       className="folder-card"
       onClick={() => naviDispatch({type: "open", id: data.id})}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation(); // 親の画面全体右クリックが反応しないようにする
+        openContextMenu(e.clientX, e.clientY, data);
+      }}
     >
       <span className="folder-icon">🗂️</span>
       <div>{data.name}</div>

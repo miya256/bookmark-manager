@@ -1,10 +1,13 @@
 import { useContext } from "react";
-import "./Content.css"
-import Link from "./Link";
-import Folder from "./Folder";
+
 import { TreeContext } from "../contexts/TreeContext";
 import { NaviContext } from "../contexts/NaviContext";
+
 import type { ItemData } from "../types/Item";
+
+import Link from "./Link";
+import Folder from "./Folder";
+import "./Content.css";
 
 type Props = {
   find: (root: ItemData, targetId: string) => ItemData | null;
