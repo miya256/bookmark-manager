@@ -1,0 +1,28 @@
+.folder-card {
+  position: relative;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.folder-card:hover {
+  background: #efffff;
+  transform: scale(1.03);
+}
+
+.folder-card img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 6px;
+}
+
+.folder-icon {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  color: #000000;
+}
