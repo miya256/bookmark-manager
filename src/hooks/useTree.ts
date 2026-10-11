@@ -117,7 +117,7 @@ function reducer(history: History<ItemData>, action: TreeAction) {
     case "add-folder": {
       const node: FolderData = {
         type: "folder",
-        id: crypto.randomUUID(),
+        id: action.newId,
         name: action.name,
         parent: action.targetId,
         children: [],
