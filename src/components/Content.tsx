@@ -11,7 +11,7 @@ type Props = {
   find: (root: ItemData, targetId: string) => ItemData | null;
 };
 
-function Content({find}: Props) {
+function Content({ find }: Props) {
   const { treeHistory, treeDispatch } = useTree();
   const { naviHistory, naviDispatch } = useNavi();
 
@@ -24,8 +24,8 @@ function Content({find}: Props) {
     <>
       <main>
         <div style={{ display: "flex", gap: "8px" }}>
-          <button onClick={() => naviDispatch({type: "goBack"})}>←</button>
-          <button onClick={() => naviDispatch({type: "goForward"})}>→</button>
+          <button onClick={() => naviDispatch({ type: "goBack" })}>←</button>
+          <button onClick={() => naviDispatch({ type: "goForward" })}>→</button>
           <span>{currentFolder.name}</span>
         </div>
 
@@ -35,12 +35,12 @@ function Content({find}: Props) {
           {currentFolder.children
             .filter((item) => item.type === "folder")
             .map((item) => (
-              <Folder key={item.id} data={item}/>
+              <Folder key={item.id} data={item} />
             ))}
           {currentFolder.children
             .filter((item) => item.type === "link")
             .map((item) => (
-              <Link key={item.id} data={item}/>
+              <Link key={item.id} data={item} />
             ))}
         </div>
       </main>

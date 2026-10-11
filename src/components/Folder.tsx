@@ -9,13 +9,12 @@ import type { FolderData } from "../types/Item";
 
 import "./Folder.css";
 
-
 function Folder({ data }: { data: FolderData }) {
   const { openContextMenu } = useContextMenu();
   const { naviDispatch } = useNavi();
   const { treeDispatch } = useTree();
   const { editingId, setEditingId } = useEditingId();
-  const [ name, setName ] = useState<string>(data.name);
+  const [name, setName] = useState<string>(data.name);
 
   // 名前が変わったら入力のところも変える
   useEffect(() => {
@@ -25,7 +24,7 @@ function Folder({ data }: { data: FolderData }) {
   return (
     <div
       className="folder-card"
-      onClick={() => naviDispatch({type: "open", id: data.id})}
+      onClick={() => naviDispatch({ type: "open", id: data.id })}
       onContextMenu={(e) => {
         e.preventDefault();
         e.stopPropagation(); // 親の画面全体右クリックが反応しないようにする
@@ -33,24 +32,26 @@ function Folder({ data }: { data: FolderData }) {
       }}
     >
       <span className="folder-icon">🗂️</span>
-      <div>{
-        data.id === editingId ?
-        <input
-          style={{ width: "100px" }}
-          value={name}
-          onClick={(e) => e.stopPropagation()}
-          onChange={(e) => setName(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              treeDispatch({type: "rename", targetId: data.id, name});
-              setEditingId(null);
-            }
-          }}
-        /> :
-        data.name
-      }</div>
+      <div>
+        {data.id === editingId ? (
+          <input
+            style={{ width: "100px" }}
+            value={name}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                treeDispatch({ type: "rename", targetId: data.id, name });
+                setEditingId(null);
+              }
+            }}
+          />
+        ) : (
+          data.name
+        )}
+      </div>
     </div>
   );
 }
 
-export default Folder
+export default Folder;

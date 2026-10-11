@@ -12,18 +12,23 @@ type Props = {
   item: ItemData | null;
 };
 
-function ContextMenu({x, y, item}: Props) {
+function ContextMenu({ x, y, item }: Props) {
   const { treeDispatch } = useTree();
   const { naviHistory } = useNavi();
   const { setEditingId } = useEditingId();
 
   return (
-    <div className="context-menu" style={{left: x+"px", top: y+"px"}}>
+    <div className="context-menu" style={{ left: x + "px", top: y + "px" }}>
       <div
         className="interactive-item"
         onClick={() => {
           const id = crypto.randomUUID();
-          treeDispatch({type: "add-folder", targetId: naviHistory.present, newId: id, name: "new"});
+          treeDispatch({
+            type: "add-folder",
+            targetId: naviHistory.present,
+            newId: id,
+            name: "new",
+          });
           setEditingId(id);
         }}
       >
@@ -37,12 +42,16 @@ function ContextMenu({x, y, item}: Props) {
       </div>
       <div
         className={item ? "interactive-item" : "non-interactive-item"}
-        onClick={item ? () => treeDispatch({type: "remove", targetId: item.id}) : undefined}
+        onClick={
+          item
+            ? () => treeDispatch({ type: "remove", targetId: item.id })
+            : undefined
+        }
       >
         削除
       </div>
     </div>
-  )
+  );
 }
 
-export default ContextMenu
+export default ContextMenu;

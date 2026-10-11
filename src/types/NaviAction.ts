@@ -1,4 +1,2 @@
-export type NaviAction = 
-  | { type: "goBack"}
-  | { type: "goForward"}
-  | { type: "open", id: string }
+export type NaviAction =
+  { type: "goBack" } | { type: "goForward" } | { type: "open"; id: string };

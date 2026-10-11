@@ -4,12 +4,8 @@ import type { History } from "../types/History";
 import type { TreeAction } from "../types/TreeAction";
 import type { LinkData, FolderData, ItemData } from "../types/Item";
 
-
 function save(root: ItemData) {
-  localStorage.setItem(
-    "bookmark-tree",
-    JSON.stringify(root),
-  );
+  localStorage.setItem("bookmark-tree", JSON.stringify(root));
 }
 
 function load(): FolderData {
@@ -33,7 +29,7 @@ function undo(history: History<ItemData>): History<ItemData> {
     past: history.past.slice(0, -1),
     present: history.past[history.past.length - 1],
     future: [history.present, ...history.future],
-  }
+  };
 }
 
 function redo(history: History<ItemData>): History<ItemData> {
@@ -43,7 +39,7 @@ function redo(history: History<ItemData>): History<ItemData> {
     past: [...history.past, history.present],
     present: history.future[0],
     future: history.future.slice(1),
-  }
+  };
 }
 
 function set(history: History<ItemData>, root: ItemData): History<ItemData> {
@@ -51,25 +47,25 @@ function set(history: History<ItemData>, root: ItemData): History<ItemData> {
     past: [...history.past, history.present],
     present: root,
     future: [],
-  }
+  };
 }
 
 function add(root: ItemData, targetId: string, data: ItemData): ItemData {
   if (root.type === "link") return root;
 
   if (root.id === targetId) {
-    return {...root, children: [...root.children, data]}
+    return { ...root, children: [...root.children, data] };
   }
 
   let changed = false;
   const children: ItemData[] = [];
   for (const ch of root.children) {
-    const node = add(ch, targetId, data)
+    const node = add(ch, targetId, data);
     if (node !== ch) changed = true;
     children.push(node);
   }
 
-  return changed ? {...root, children: children} : root;
+  return changed ? { ...root, children: children } : root;
 }
 
 function remove(root: ItemData, targetId: string): ItemData {
@@ -88,7 +84,7 @@ function remove(root: ItemData, targetId: string): ItemData {
     children.push(node);
   }
 
-  return changed ? {...root, children: children} : root;
+  return changed ? { ...root, children: children } : root;
 }
 
 function reducer(history: History<ItemData>, action: TreeAction) {
@@ -109,7 +105,7 @@ function reducer(history: History<ItemData>, action: TreeAction) {
         name: new URL(action.url).hostname.replace(/^www\./, "").split(".")[0],
         parent: action.targetId,
         url: action.url,
-      }
+      };
       root = add(history.present, action.targetId, node);
       newHistory = set(history, root);
       break;
@@ -121,7 +117,7 @@ function reducer(history: History<ItemData>, action: TreeAction) {
         name: action.name,
         parent: action.targetId,
         children: [],
-      }
+      };
       root = add(history.present, action.targetId, node);
       newHistory = set(history, root);
       break;
@@ -134,8 +130,8 @@ function reducer(history: History<ItemData>, action: TreeAction) {
     case "rename": {
       const node = find(history.present, action.targetId);
       if (node === null) throw new Error("Not found node in rename function");
-      
-      const newNode: ItemData = {...node};
+
+      const newNode: ItemData = { ...node };
       newNode.name = action.name;
 
       root = remove(history.present, action.targetId);
@@ -144,13 +140,13 @@ function reducer(history: History<ItemData>, action: TreeAction) {
       break;
     }
     default:
-      newHistory = history
+      newHistory = history;
   }
   save(newHistory.present);
   return newHistory;
 }
 
-function find(root: ItemData, targetId: string): ItemData | null{
+function find(root: ItemData, targetId: string): ItemData | null {
   if (root.id === targetId) return root;
 
   if (root.type === "folder") {
@@ -168,10 +164,10 @@ export function useTree() {
   const [history, dispatch] = useReducer(reducer, {
     past: [],
     present: root,
-    future: []
+    future: [],
   });
 
   return { history, dispatch, find };
 }
 
-export default useTree
+export default useTree;

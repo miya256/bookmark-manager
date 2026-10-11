@@ -5,7 +5,9 @@ type EditingIdContextType = {
   setEditingId: (id: string | null) => void;
 };
 
-export const EditingIdContext = createContext<EditingIdContextType | null>(null);
+export const EditingIdContext = createContext<EditingIdContextType | null>(
+  null,
+);
 
 export const useEditingId = () => {
   const context = useContext(EditingIdContext);

@@ -5,7 +5,6 @@ import { useNavi } from "../contexts/NaviContext";
 
 import "./Sidebar.css";
 
-
 function Sidebar() {
   const { treeHistory, treeDispatch } = useTree();
   const { naviHistory, naviDispatch } = useNavi();
