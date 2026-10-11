@@ -19,7 +19,7 @@ function load(): FolderData {
       type: "folder",
       id: "root",
       name: "home",
-      parent: null,
+      parent: "root",
       children: [],
     };
   }
@@ -93,6 +93,7 @@ function remove(root: ItemData, targetId: string): ItemData {
 
 function reducer(history: History<ItemData>, action: TreeAction) {
   let newHistory: History<ItemData>;
+  let root: ItemData;
 
   switch (action.type) {
     case "undo":
@@ -109,7 +110,7 @@ function reducer(history: History<ItemData>, action: TreeAction) {
         parent: action.targetId,
         url: action.url,
       }
-      const root = add(history.present, action.targetId, node);
+      root = add(history.present, action.targetId, node);
       newHistory = set(history, root);
       break;
     }
@@ -121,13 +122,25 @@ function reducer(history: History<ItemData>, action: TreeAction) {
         parent: action.targetId,
         children: [],
       }
-      const root = add(history.present, action.targetId, node);
+      root = add(history.present, action.targetId, node);
       newHistory = set(history, root);
       break;
     }
     case "remove": {
-      const root = remove(history.present, action.targetId);
-      newHistory =  set(history, root);
+      root = remove(history.present, action.targetId);
+      newHistory = set(history, root);
+      break;
+    }
+    case "rename": {
+      const node = find(history.present, action.targetId);
+      if (node === null) throw new Error("Not found node in rename function");
+      
+      const newNode: ItemData = {...node};
+      newNode.name = action.name;
+
+      root = remove(history.present, action.targetId);
+      root = add(root, newNode.parent, newNode);
+      newHistory = set(history, root);
       break;
     }
     default:
@@ -135,6 +148,18 @@ function reducer(history: History<ItemData>, action: TreeAction) {
   }
   save(newHistory.present);
   return newHistory;
+}
+
+function find(root: ItemData, targetId: string): ItemData | null{
+  if (root.id === targetId) return root;
+
+  if (root.type === "folder") {
+    for (const ch of root.children) {
+      const target = find(ch, targetId);
+      if (target !== null) return target;
+    }
+  }
+  return null;
 }
 
 export function useTree() {
@@ -145,18 +170,6 @@ export function useTree() {
     present: root,
     future: []
   });
-
-  const find = (root: ItemData, targetId: string): ItemData | null => {
-    if (root.id === targetId) return root;
-
-    if (root.type === "folder") {
-      for (const ch of root.children) {
-        const target = find(ch, targetId);
-        if (target !== null) return target;
-      }
-    }
-    return null;
-  }
 
   return { history, dispatch, find };
 }

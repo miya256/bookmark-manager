@@ -2,7 +2,7 @@ export type LinkData = {
   type: "link";
   id: string;
   name: string;
-  parent: string | null;
+  parent: string;
   url: string;
 };
 
@@ -10,7 +10,7 @@ export type FolderData = {
   type: "folder";
   id: string;
   name: string;
-  parent: string | null;
+  parent: string;
   children: ItemData[];
 };
 

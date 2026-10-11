@@ -1,3 +1,6 @@
+import { useEditingId } from "../contexts/EditingIdContext";
+import { useTree } from "../contexts/TreeContext";
+
 import type { ItemData } from "../types/Item";
 
 import "./ContextMenu.css";
@@ -9,6 +12,9 @@ type Props = {
 };
 
 function ContextMenu({x, y, item}: Props) {
+  const { treeDispatch } = useTree();
+  const { setEditingId } = useEditingId();
+
   return (
     <div className="context-menu" style={{left: x+"px", top: y+"px"}}>
       <div
@@ -18,13 +24,13 @@ function ContextMenu({x, y, item}: Props) {
       </div>
       <div
         className={item ? "interactive-item" : "non-interactive-item"}
-        onClick={item ? undefined : undefined}
+        onClick={item ? () => setEditingId(item.id) : undefined}
       >
         名前を変更
       </div>
       <div
         className={item ? "interactive-item" : "non-interactive-item"}
-        onClick={item ? undefined : undefined}
+        onClick={item ? () => treeDispatch({type: "remove", targetId: item.id}) : undefined}
       >
         削除
       </div>
