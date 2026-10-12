@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { useTree } from "../contexts/TreeContext";
 import { useNavi } from "../contexts/NaviContext";
 
@@ -15,8 +17,16 @@ function Content({ find }: Props) {
   const { treeHistory } = useTree();
   const { naviHistory, naviDispatch } = useNavi();
 
+  useEffect(() => {
+    if (find(treeHistory.present, naviHistory.present) === null) {
+      naviDispatch({ type: "goBack" });
+    }
+  }, [treeHistory.present, naviHistory.present, naviDispatch]);
+
   const currentFolder = find(treeHistory.present, naviHistory.present);
-  if (currentFolder === null || currentFolder.type == "link") {
+  if (currentFolder === null) {
+    return null;
+  } else if (currentFolder.type == "link") {
     throw new Error("Failed to load bookmark-tree");
   }
 
