@@ -6,8 +6,8 @@ import { useNavi } from "../contexts/NaviContext";
 import "./Sidebar.css";
 
 function Sidebar() {
-  const { treeHistory, treeDispatch } = useTree();
-  const { naviHistory, naviDispatch } = useNavi();
+  const { treeDispatch } = useTree();
+  const { naviHistory } = useNavi();
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
 

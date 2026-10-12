@@ -12,7 +12,7 @@ type Props = {
 };
 
 function Content({ find }: Props) {
-  const { treeHistory, treeDispatch } = useTree();
+  const { treeHistory } = useTree();
   const { naviHistory, naviDispatch } = useNavi();
 
   const currentFolder = find(treeHistory.present, naviHistory.present);
