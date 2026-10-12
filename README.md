@@ -1,3 +1,20 @@
+# Bookmark Manager
+
+ブックマークを管理するぞい
+
+## アイデア
+
+- 永続木使う
+- ノードはすべて異なるID
+- （根ID、現在地ID）のペアを持つ
+- 追加・削除は、自分の新しい親をどんどん作っていく感じ
+- 名前変更なども追加と同じ操作でOK
+- フォルダ、リンク移動は、ノード削除＆追加でいける
+- local strageの使い方は、developブランチに実装してある
+- フォルダの追加は右クリックからでいいかねえ
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
