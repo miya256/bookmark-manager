@@ -9,17 +9,29 @@ function Sidebar() {
   const { treeHistory, treeDispatch } = useTree();
   const { naviHistory, naviDispatch } = useNavi();
   const [url, setUrl] = useState("");
+  const [error, setError] = useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    treeDispatch({
-      type: "add-link",
-      targetId: naviHistory.present,
-      url,
-    });
+    try {
+      const parsedUrl = new URL(url);
+      if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+        throw new Error("URLが正しくありません");
+      }
 
-    setUrl("");
+      setError("");
+
+      treeDispatch({
+        type: "add-link",
+        targetId: naviHistory.present,
+        url,
+      });
+
+      setUrl("");
+    } catch {
+      setError(url ? "URLが不正な形式です" : "URLを入力してください");
+    }
   }
 
   return (
@@ -36,6 +48,7 @@ function Sidebar() {
           />
           <button type="submit">追加</button>
         </form>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </aside>
     </>
   );
